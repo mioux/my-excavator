@@ -1,0 +1,8 @@
+[database]
+host=localhost
+port=3306
+;socket=/var/run/mysql/mysql.sock
+user=root
+password=toor
+; This client flag is used to handle multi-query
+client_flag=65536

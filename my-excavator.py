@@ -20,7 +20,6 @@ elif general_params.params['db_type'] == 'postgres':
 else:
     raise NotImplementedError("{0} engine is not implemented.".format(general_params.params['db_type']))
 
-db = include.mysql_manager.mysql_manager()
 # Read databases connection parameters
 include.config_manager.ReadParams('database', db.params, db.config_int_val, db.config_bool_val)
 

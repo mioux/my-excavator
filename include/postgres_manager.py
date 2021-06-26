@@ -45,8 +45,15 @@ class postgres_manager(include.database_manager.database_manager):
         for param_name in param_list:
             params_real[param_name] = self.query_params[param_name]
 
-        self.data = self._connection.all(sql, params_real)
+        buffer = self._connection.all(sql, params_real, back_as=dict)
     
-        if self.data.description is not None:
-            for key in self.data.description:
-                self.headers.append(key[0])
+        if buffer is not None:
+            for key in buffer[0]:
+                self.headers.append(key)
+
+            for line in buffer:
+                line_data = [ ]
+                for key in self.headers:
+                    line_data.append(line[key])
+                self.data.append(line_data)
+

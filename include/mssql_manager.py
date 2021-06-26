@@ -17,7 +17,7 @@ class mssql_manager(include.database_manager.database_manager):
             'login_timeout':   60,
             'charset':         'UTF-8',
             'host':            '',
-            'appname':         None,
+            'appname':         'my-excavator',
             'port':            1433,
             'conn_properties': None,
             'autocommit':      False,

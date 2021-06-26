@@ -1,8 +1,18 @@
 #!/bin/env python3
 import configparser
 import os
+import sys
 
 import include
+
+help_options = [ '--help', '-h', '-?', '/?', '/h' ]
+for option in sys.argv:
+    if option.lower() in help_options:
+        print('Full documentation is available online.')
+        print('    https://github.com/mioux/my-excavator/wiki')
+        print('You can clone documentation via github.')
+        print('    git clone https://github.com/mioux/my-excavator.wiki.git')
+        exit()
 
 config = configparser.ConfigParser()
 config.read('config/config.ini')

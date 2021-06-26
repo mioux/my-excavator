@@ -10,15 +10,7 @@ This has been tested under Fedora 34 / CentOS 8 / Debian 10 with python 3.
 
 All the requirements can be installed via pip.
 
-<<<<<<< HEAD
-<<<<<<< HEAD
 - PyMySQL 0.9.x (default in debian10 packages)
-=======
-- PyMySQL 1.x
->>>>>>> 78d56a0 (Initial commit)
-=======
-- PyMySQL 0.9.x (default in debian10 packages)
->>>>>>> b8af23d (README.md correction)
 - configparser 5.x (**Not ConfigParser** which is for Python 2.x)
 
     pip3 install --user 'PyMySQL<2' 'configparser<6'

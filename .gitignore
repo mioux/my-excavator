@@ -3,3 +3,4 @@ hooks/prehook/*
 hooks/posthook/*
 data/in/*
 data/out/*
+__pycache__/

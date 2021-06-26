@@ -22,7 +22,7 @@ At least one of these pip packages must be installed :
 
 ## Configuration
 
-There is a template confifuration file located in `config/config.ini-template`. Copy it to `config/config.ini` or create a new one.
+There is a template configuration file located in `config/config.ini-template`. Copy it to `config/config.ini` or create a new one.
 
 It's a standard ini file. Here is an advanced example :
 

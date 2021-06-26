@@ -64,7 +64,7 @@ class mssql_manager(include.database_manager.database_manager):
             params_real[param_name] = self.query_params[param_name]
 
         cursor.execute(sql, params_real)
-        buffer = cursor.fetchall(sql, params_real)
+        buffer = cursor.fetchall()
     
         if buffer is not None:
             for key in buffer[0]:

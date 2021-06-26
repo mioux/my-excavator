@@ -22,6 +22,9 @@ elif general_params.params['db_type'] == 'postgres':
 elif general_params.params['db_type'] == 'mssql':
     import include.mssql_manager
     db = include.mssql_manager.mssql_manager()
+elif general_params.params['db_type'] == 'sqlite3':
+    import include.sqlite3_manager
+    db = include.sqlite3_manager.sqlite3_manager()
 else:
     raise NotImplementedError("{0} engine is not implemented.".format(general_params.params['db_type']))
 

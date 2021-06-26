@@ -10,10 +10,15 @@ This has been tested under Fedora 34 / CentOS 8 / Debian 10 with python 3.
 
 All the requirements can be installed via pip.
 
-- PyMySQL 0.9.x (default in debian10 packages)
 - configparser 5.x (**Not ConfigParser** which is for Python 2.x)
 
-    pip3 install --user 'PyMySQL<2' 'configparser<6'
+At least one of these pip packages must be installed :
+
+- PyMySQL 0.9.x (default in debian10 packages)
+- Postgres 3.0.0
+- pymysql 2.2
+
+    pip3 install --user 'PyMySQL<2' 'configparser<6' 'pymssql<3' 'postgres<4'
 
 ## Configuration
 

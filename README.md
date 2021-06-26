@@ -1,4 +1,4 @@
-# build-extract
+# my-excavator
 
 This programs takes a list of .sql files in a folder, and converts its last output as csv.
 

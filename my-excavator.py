@@ -14,9 +14,14 @@ include.config_manager.ReadParams('general', general_params.params, general_para
 db: include.database_manager.database_manager = None
 
 if general_params.params['db_type'] == 'mysql':
+    import include.mysql_manager
     db = include.mysql_manager.mysql_manager()
 elif general_params.params['db_type'] == 'postgres':
+    import include.postgres_manager
     db = include.postgres_manager.postgres_manager()
+elif general_params.params['db_type'] == 'mssql':
+    import include.mssql_manager
+    db = include.mssql_manager.mssql_manager()
 else:
     raise NotImplementedError("{0} engine is not implemented.".format(general_params.params['db_type']))
 

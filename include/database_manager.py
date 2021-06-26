@@ -5,7 +5,6 @@ import os
 import sys
 import re
 import include
-import include.database_manager
 
 class database_manager(object):
     """Common database methods"""

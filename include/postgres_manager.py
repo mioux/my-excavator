@@ -1,26 +1,18 @@
 #!/bin/env python3
 
-import configparser
-import os
-import sys
 import postgres
-import re
-import include
 import include.database_manager
 
 class postgres_manager(include.database_manager.database_manager):
-    """DB connection and data collector"""
+    """Postgres DB connection and data collector"""
 
+    # Defines defaults parameters
     def __init__(self):
         self.params = {
             'url':               '',
             'minconn':           1,
             'maxconn':           10,
             'idle_timeout':      600,
-            #'cursor_factory':   None,
-            #'back_as_registry': None,
-            #'pool_class':       None,
-            #'cache':            None,
             'readonly':          True
         }
 
@@ -34,15 +26,12 @@ class postgres_manager(include.database_manager.database_manager):
 
         self._connection = None
 
+    # Open connection
     def SetConnection(self):
         self._connection = postgres.Postgres(url = self.params['url'],
                                             minconn = self.params['minconn'],
                                             maxconn = self.params['maxconn'],
                                             idle_timeout = self.params['idle_timeout'],
-                                            #cursor_factory = self.params['unix_socket'],
-                                            #back_as_registry = self.params['port'],
-                                            #pool_class = self.params['charset'],
-                                            #cache = self.params['sql_mode'],
                                             readonly = self.params['readonly'])
 
     # Set data in arrays

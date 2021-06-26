@@ -16,7 +16,7 @@ db: include.database_manager.database_manager = None
 if general_params.params['db_type'] == 'mysql':
     db = include.mysql_manager.mysql_manager()
 elif general_params.params['db_type'] == 'postgres':
-    db = include.mysql_manager.postgres_manager()
+    db = include.postgres_manager.postgres_manager()
 else:
     raise NotImplementedError("{0} engine is not implemented.".format(general_params.params['db_type']))
 

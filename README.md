@@ -12,7 +12,7 @@ All the requirements can be installed via pip.
 
 - configparser 5.x (**Not ConfigParser** which is for Python 2.x)
 
-At least one of these pip packages must be installed :
+You need to install packages accordingly to the engine you will use. SQLite don't need any additional packahe as it is provided with default package installation :
 
 - PyMySQL 0.9.x (default in debian10 packages)
 - Postgres 3.0.0

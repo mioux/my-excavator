@@ -16,7 +16,7 @@ You need to install packages accordingly to the engine you will use. SQLite don'
 
 - PyMySQL 0.9.x (default in debian10 packages)
 - Postgres 3.0.0
-- pymysql 2.2
+- pymssql 2.2
 
     pip3 install --user 'PyMySQL<2' 'configparser<6' 'pymssql<3' 'postgres<4'
 

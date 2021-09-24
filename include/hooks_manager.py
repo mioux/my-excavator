@@ -5,6 +5,9 @@ import subprocess
 
 # Execute all executables in pre-hook or post-hook folder
 def ExecuteHooks(folder: str):
+    if os.path.isdir(folder) == False:
+        return
+
     hooks = os.listdir(folder)
 
     for file in hooks:

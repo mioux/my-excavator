@@ -13,7 +13,7 @@ class general_manager(object):
             'prehooks':      os.path.join('hooks', 'prehook'),
             'posthooks':     os.path.join('hooks', 'posthook'),
             'headers':       True,
-            'output_format': 'utf8',
+            'output_format': 'utf_8',
             'separator':     ';',
             'quotechar':     '"',
             'quote':         'minimal',

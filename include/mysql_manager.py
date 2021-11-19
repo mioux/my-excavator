@@ -75,7 +75,7 @@ class mysql_manager(include.database_manager.database_manager):
     # Set data in arrays
     def GetData(self, input_file: str):
         sql = ""
-        with open(input_file, 'r') as input_file_ptr:
+        with open(input_file, 'r', encoding='utf_8') as input_file_ptr:
             sql = input_file_ptr.read()
 
         cursor = self._connection.cursor()
@@ -86,7 +86,7 @@ class mysql_manager(include.database_manager.database_manager):
 
         cursor.execute(sql, params_real)
         self.data = cursor.fetchall()
-    
+
         if cursor.description is not None:
             for key in cursor.description:
                 self.headers.append(key[0])

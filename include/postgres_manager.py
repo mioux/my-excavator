@@ -37,7 +37,7 @@ class postgres_manager(include.database_manager.database_manager):
     # Set data in arrays
     def GetData(self, input_file: str):
         sql = ""
-        with open(input_file, 'r') as input_file_ptr:
+        with open(input_file, 'r', encoding='utf_8') as input_file_ptr:
             sql = input_file_ptr.read()
 
         params_real = {}
@@ -46,7 +46,7 @@ class postgres_manager(include.database_manager.database_manager):
             params_real[param_name] = self.query_params[param_name]
 
         buffer = self._connection.all(sql, params_real, back_as=dict)
-    
+
         if buffer is not None:
             for key in buffer[0]:
                 self.headers.append(key)
@@ -56,4 +56,3 @@ class postgres_manager(include.database_manager.database_manager):
                 for key in self.headers:
                     line_data.append(line[key])
                 self.data.append(line_data)
-

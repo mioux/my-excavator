@@ -54,7 +54,7 @@ class mssql_manager(include.database_manager.database_manager):
     # Set data in arrays
     def GetData(self, input_file: str):
         sql = ""
-        with open(input_file, 'r') as input_file_ptr:
+        with open(input_file, 'r', encoding='utf_8') as input_file_ptr:
             sql = input_file_ptr.read()
 
         cursor = self._connection.cursor()

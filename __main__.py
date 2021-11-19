@@ -59,13 +59,14 @@ db.SetConnection()
 include.hooks_manager.ExecuteHooks(general_params.params['prehooks'])
 
 # Run extractions
-for file in os.listdir(general_params.params['data_in']):
-    if file.endswith(".sql"):
-        input_file = os.path.join(general_params.params['data_in'], file)
-        output_file = os.path.join(general_params.params['data_out'], file[:-4] + '.csv')
-        db.GetData(input_file)
-        include.csv_manager.RunExtraction(input_file, output_file, general_params.params, db.headers, db.data)
-        
+for current_dir_path, current_subdirs, current_files in os.walk(general_params.params['data_in']):
+    for file in current_files:
+        if file.endswith(".sql"):
+            input_file = str(os.path.join(current_dir_path, file))
+            output_file = str(input_file).replace(general_params.params['data_in'], general_params.params['data_out'], 1)[:-4] + '.csv'
+            db.GetData(input_file)
+            include.csv_manager.RunExtraction(input_file, output_file, general_params.params, db.headers, db.data)
+
 
 # Run posthooks
 include.hooks_manager.ExecuteHooks(general_params.params['posthooks'])

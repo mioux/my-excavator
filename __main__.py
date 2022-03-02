@@ -62,11 +62,18 @@ include.hooks_manager.ExecuteHooks(general_params.params['prehooks'])
 for current_dir_path, current_subdirs, current_files in os.walk(general_params.params['data_in']):
     for file in current_files:
         if file.endswith(".sql"):
-            input_file = str(os.path.join(current_dir_path, file))
-            output_file = str(input_file).replace(general_params.params['data_in'], general_params.params['data_out'], 1)[:-4] + '.csv'
-            db.GetData(input_file)
-            include.csv_manager.RunExtraction(input_file, output_file, general_params.params, db.headers, db.data)
-
+            try:
+                input_file = str(os.path.join(current_dir_path, file))
+                output_file = str(input_file).replace(general_params.params['data_in'], general_params.params['data_out'], 1)[:-4] + '.csv'
+                db.GetData(input_file)
+                include.csv_manager.RunExtraction(input_file, output_file, general_params.params, db.headers, db.data)
+            except BaseException as error_msg:
+                if hasattr(error_msg, 'message'):
+                    print(f"Error executing query. Please check your file.\n{error_msg.message}", file=sys.stderr )
+                else:
+                    print(f"Error executing query. Please check your file.\n{error_msg}", file=sys.stderr )
+                if general_params.params['stop_on_sql_error'] == True:
+                    sys.exit(1)
 
 # Run posthooks
 include.hooks_manager.ExecuteHooks(general_params.params['posthooks'])

@@ -55,6 +55,8 @@ class mssql_manager(include.database_manager.database_manager):
     def GetData(self, input_file: str):
         sql = ""
         self.headers = [ ]
+        self.data = [ ]
+
         with open(input_file, 'r', encoding='utf_8') as input_file_ptr:
             sql = input_file_ptr.read()
 

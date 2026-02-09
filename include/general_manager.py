@@ -22,5 +22,5 @@ class general_manager(object):
             'stop_on_sql_error': True
         }
 
-        self.bool_val = [ 'headers' ]
+        self.bool_val = [ 'headers', 'stop_on_sql_error' ]
         self.int_val = None

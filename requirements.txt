@@ -1,0 +1,4 @@
+PyMySQL<2
+configparser<6
+pymssql<3
+postgres<4

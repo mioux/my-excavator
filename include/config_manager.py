@@ -27,7 +27,7 @@ def ReadParams(section: str, values: dict, int_values: list = None, bool_values:
             if int_values is not None and arg_name in int_values:
                 values[arg_name] = int(os.environ[cur_arg])
             elif bool_values is not None and arg_name in bool_values:
-                values[arg_name] = bool(distutils.util.strtobool(os.environ[cur_arg]))
+                values[arg_name] = os.environ[cur_arg].lower() in ['1', 'true', 'yes', 'y', 't']
             elif arg_name in values:
                 values[arg_name] = os.environ[cur_arg]
 
@@ -39,7 +39,7 @@ def ReadParams(section: str, values: dict, int_values: list = None, bool_values:
             if int_values is not None and arg_name in int_values:
                 values[arg_name] = int(arg[1])
             elif bool_values is not None and arg_name in bool_values:
-                values[arg_name] = bool(distutils.util.strtobool(arg[1]))
+                values[arg_name] = arg[1].lower() in ['1', 'true', 'yes', 'y', 't']
             elif arg_name in values:
                 values[arg_name] = arg[1]
 

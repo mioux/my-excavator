@@ -69,7 +69,10 @@ class mssql_manager(include.database_manager.database_manager):
         cursor.execute(sql, params_real)
         buffer = cursor.fetchall()
 
-        if buffer is not None and len(buffer) > 0:
+        while buffer is not None and len(buffer) > 0:
+            self.headers = [ ]
+            self.data = [ ]
+
             for key in buffer[0]:
                 self.headers.append(key)
 
@@ -78,3 +81,5 @@ class mssql_manager(include.database_manager.database_manager):
                 for key in self.headers:
                     line_data.append(line[key])
                 self.data.append(line_data)
+
+            buffer = cursor.fetchall()

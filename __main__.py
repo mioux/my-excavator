@@ -2,8 +2,8 @@
 import configparser
 import os
 import sys
-
 import include
+from pprint import pprint
 
 help_options = [ '--help', '-h', '-?', '/?', '/h' ]
 for option in sys.argv:
@@ -55,6 +55,11 @@ for cur_type in param_types:
 
 db.SetConnection()
 
+if os.environ.get("DEBUG", "0") == "1":
+    print("General parameters:")
+    pprint(general_params.params)
+    pprint(db.params)
+
 # Run prehooks
 include.hooks_manager.ExecuteHooks(general_params.params['prehooks'])
 
@@ -62,6 +67,7 @@ include.hooks_manager.ExecuteHooks(general_params.params['prehooks'])
 for current_dir_path, current_subdirs, current_files in os.walk(general_params.params['data_in']):
     for file in current_files:
         if file.endswith(".sql"):
+            print(f"Executing: {file}")
             try:
                 input_file = str(os.path.join(current_dir_path, file))
                 output_file = str(input_file).replace(general_params.params['data_in'], general_params.params['data_out'], 1)[:-4] + '.csv'

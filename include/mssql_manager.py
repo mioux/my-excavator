@@ -66,20 +66,23 @@ class mssql_manager(include.database_manager.database_manager):
         for param_name in param_list:
             params_real[param_name] = self.query_params[param_name]
 
-        cursor.execute(sql, params_real)
-        buffer = cursor.fetchall()
-
-        while buffer is not None and len(buffer) > 0:
-            self.headers = [ ]
-            self.data = [ ]
-
-            for key in buffer[0]:
-                self.headers.append(key)
-
-            for line in buffer:
-                line_data = [ ]
-                for key in self.headers:
-                    line_data.append(line[key])
-                self.data.append(line_data)
-
+        try:
+            cursor.execute(sql, params_real)
             buffer = cursor.fetchall()
+
+            while buffer is not None and len(buffer) > 0:
+                self.headers = [ ]
+                self.data = [ ]
+
+                for key in buffer[0]:
+                    self.headers.append(key)
+
+                for line in buffer:
+                    line_data = [ ]
+                    for key in self.headers:
+                        line_data.append(line[key])
+                    self.data.append(line_data)
+
+                buffer = cursor.fetchall()
+        except:
+            print(f"No data for {input_file}")

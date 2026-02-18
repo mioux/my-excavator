@@ -23,5 +23,4 @@ def RunExtraction(input_file: str, output_file: str, general: dict, headers_list
         output_csv.writerow(headers_list)
 
     if data is not None:
-        for data_row in data:
-            output_csv.writerow(data_row)
+        output_csv.writerows(data)

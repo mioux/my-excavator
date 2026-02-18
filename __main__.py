@@ -1,5 +1,5 @@
 #!/bin/env python3
-import configparser
+from backports import configparser
 import os
 import sys
 import include

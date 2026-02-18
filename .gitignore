@@ -4,3 +4,4 @@ hooks/posthook/*
 data/in/*
 data/out/*
 __pycache__/
+venv/

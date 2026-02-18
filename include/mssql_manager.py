@@ -1,6 +1,6 @@
 #!/bin/env python3
 
-import pymssql
+import mssql_python
 import include.database_manager
 
 class mssql_manager(include.database_manager.database_manager):
@@ -9,19 +9,28 @@ class mssql_manager(include.database_manager.database_manager):
     # Defines defaults parameters
     def __init__(self):
         self.params = {
-            'server':          '.',
-            'user':            None,
-            'password':        None,
-            'database':        '',
-            'timeout':         0,
-            'login_timeout':   60,
-            'charset':         'UTF-8',
-            'host':            '',
-            'appname':         'my-excavator',
-            'port':            1433,
-            'conn_properties': None,
-            'autocommit':      False,
-            'tds_version':     None
+            'server':                   '.',
+            'uid':                      None,
+            'pwd':                      None,
+            'authentication':           None,
+            'trusted_connection':       None,
+            'database':                 None,
+            'encrypt':                  None,
+            'trustservercertificate':   None,
+            'hostnameincertificate':    None,
+            'servercertificate':        None,
+            'serverspn':                None,
+            'multisubnetfailover':      None,
+            'applicationintent':        None,
+            'connectretrycount':        None,
+            'connectretryinterval':     None,
+            'keepalive':                None,
+            'keepaliveinterval':        None,
+            'ipaddresspreference':      None,
+            'packetsize':               None,
+            ###################################
+            'timeout':                  0,
+            'autocommit':               True
         }
 
         self.config_int_val  = [ 'timeout', 'login_timeout', 'port' ]
@@ -34,22 +43,53 @@ class mssql_manager(include.database_manager.database_manager):
 
         self._connection = None
 
+    def ParamsToCS(self):
+        CS = ""
+
+        ConnectionParameters = {
+            'server',
+            'uid',
+            'pwd',
+            'authentication',
+            'trusted_connection',
+            'database',
+            'encrypt',
+            'trustservercertificate',
+            'hostnameincertificate',
+            'servercertificate',
+            'serverspn',
+            'multisubnetfailover',
+            'applicationintent',
+            'connectretrycount',
+            'connectretryinterval',
+            'keepalive',
+            'keepaliveinterval',
+            'ipaddresspreference',
+            'packetsize'
+        }
+
+        for item in ConnectionParameters:
+            value = self.params[item]
+            if value is None:
+                continue
+
+            if type(value) is bool and value == True:
+                value = "yes"
+            elif type(value) is bool:
+                value = "no"
+
+            if ";" in str(value) or str(value).startswith("{"):
+                value = "{"+str(value).replace("}", "}}")+"}" # Dans le cas où on démarre par { ou s'il y a un ; => {valeur} avec les } doublés
+
+            CS += f"{item}={value};"
+
+        return CS
+
     # Open connection
     def SetConnection(self):
-        self._connection = pymssql.connect(server = self.params['server'],
-                                          user = self.params['user'],
-                                          password = self.params['password'],
-                                          database = self.params['database'],
-                                          timeout = self.params['timeout'],
-                                          login_timeout = self.params['login_timeout'],
-                                          charset = self.params['charset'],
-                                          as_dict = True,
-                                          host = self.params['host'],
-                                          appname = self.params['appname'],
-                                          port = self.params['port'],
-                                          conn_properties = self.params['conn_properties'],
-                                          autocommit = self.params['autocommit'],
-                                          tds_version = self.params['tds_version'])
+        self._connection = mssql_python.connect(connection_str = self.ParamsToCS(),
+                                                autocommit = self.params['autocommit'] == True,
+                                                timeout = self.params['timeout'])
 
     # Set data in arrays
     def GetData(self, input_file: str):
@@ -66,23 +106,21 @@ class mssql_manager(include.database_manager.database_manager):
         for param_name in param_list:
             params_real[param_name] = self.query_params[param_name]
 
-        try:
-            cursor.execute(sql, params_real)
-            buffer = cursor.fetchall()
+        cursor.execute(sql, params_real)
 
-            while buffer is not None and len(buffer) > 0:
-                self.headers = [ ]
+        while True:
+
+            if cursor.description is not None:
+                buffer = cursor.fetchall()
+                self.headers = [ col[0] for col in cursor.description ]
                 self.data = [ ]
-
-                for key in buffer[0]:
-                    self.headers.append(key)
 
                 for line in buffer:
                     line_data = [ ]
-                    for key in self.headers:
+                    for key in range(len(cursor.description)):
                         line_data.append(line[key])
                     self.data.append(line_data)
 
-                buffer = cursor.fetchall()
-        except:
-            print(f"No data for {input_file}")
+            ns = cursor.nextset()
+            if ns == False:
+                break

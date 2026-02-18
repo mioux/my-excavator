@@ -6,7 +6,7 @@ import os
 def RunExtraction(input_file: str, output_file: str, general: dict, headers_list: list = None, data: dict = None):
     print('Extract ' + input_file + ' to ' + output_file)
     os.makedirs(os.path.dirname(output_file), exist_ok=True)
-    output_file_ptr = open(output_file, 'w', encoding=general['output_format'])
+    output_file_ptr = open(output_file, 'w', encoding=general['output_format'], newline='')
 
     if general['quote'].upper() == 'NONE':
         quote_type = csv.QUOTE_NONE

@@ -2,3 +2,4 @@ PyMySQL<2
 configparser<8
 postgres<4
 mssql_python<2
+#SQLAlchemy

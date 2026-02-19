@@ -2,6 +2,7 @@
 
 import mssql_python
 import include.database_manager
+import re
 
 class mssql_manager(include.database_manager.database_manager):
     """Postgres DB connection and data collector"""
@@ -93,34 +94,40 @@ class mssql_manager(include.database_manager.database_manager):
 
     # Set data in arrays
     def GetData(self, input_file: str):
+        whole_sql = ""
         sql = ""
         self.headers = [ ]
         self.data = [ ]
 
         with open(input_file, 'r', encoding='utf_8') as input_file_ptr:
-            sql = input_file_ptr.read()
+            whole_sql = input_file_ptr.read()
+
+        parts = re.split(r'(?m)^GO(?:\s+\d*|)$', whole_sql)
 
         cursor = self._connection.cursor()
+
         params_real = {}
         param_list = self._GetParamList(sql)
         for param_name in param_list:
             params_real[param_name] = self.query_params[param_name]
 
-        cursor.execute(sql, params_real)
+        for sql in parts:
 
-        while True:
+            cursor.execute(sql, params_real)
 
-            if cursor.description is not None:
-                buffer = cursor.fetchall()
-                self.headers = [ col[0] for col in cursor.description ]
-                self.data = [ ]
+            while True:
 
-                for line in buffer:
-                    line_data = [ ]
-                    for key in range(len(cursor.description)):
-                        line_data.append(line[key])
-                    self.data.append(line_data)
+                if cursor.description is not None:
+                    buffer = cursor.fetchall()
+                    self.headers = [ col[0] for col in cursor.description ]
+                    self.data = [ ]
 
-            ns = cursor.nextset()
-            if ns == False:
-                break
+                    for line in buffer:
+                        line_data = [ ]
+                        for key in range(len(cursor.description)):
+                            line_data.append(line[key])
+                        self.data.append(line_data)
+
+                ns = cursor.nextset()
+                if ns == False:
+                    break

@@ -10,13 +10,13 @@ This has been tested under Fedora 34 / CentOS 8 / Debian 10 with python 3.
 
 All the requirements can be installed via pip.
 
-- configparser 5.x (**Not ConfigParser** which is for Python 2.x)
+- configparser 7.x (**Not ConfigParser** which is for Python 2.x)
 
 You need to install packages accordingly to the engine you will use. SQLite don't need any additional packahe as it is provided with default package installation :
 
-- PyMySQL 0.9.x (default in debian10 packages)
-- Postgres 3.0.0
-- pymssql 2.2
+- PyMySQL 1.X (default in debian10 packages)
+- Postgres 3.X
+- mssql_python 1.X
 
     pip3 install --user 'PyMySQL<2' 'configparser<6' 'pymssql<3' 'postgres<4'
 
@@ -36,7 +36,7 @@ It's a standard ini file. Here is an advanced example :
     [database]
     socket=/var/run/mysqld/mysqld.sock
 
-    [param-ini]
+    [param-int]
     group=17
     style=4
 
@@ -54,6 +54,7 @@ It's a standard ini file. Here is an advanced example :
 
 ## Options
 
-All the options in the ini file can be overloaded with `--<section>-<param>=<value>`.
+All the options in the ini file can be overloaded with `--<section>-<param>=<value>`
+or with an environment variable named `<section>-<param>=<value>`.
 
 To overload a parameter use `--param-<type>-<param-name>=<value>`.

@@ -106,12 +106,12 @@ class mssql_manager(include.database_manager.database_manager):
 
         cursor = self._connection.cursor()
 
-        params_real = {}
-        param_list = self._GetParamList(sql)
-        for param_name in param_list:
-            params_real[param_name] = self.query_params[param_name]
-
         for sql in parts:
+
+            params_real = {}
+            param_list = self._GetParamList(sql)
+            for param_name in param_list:
+                params_real[param_name] = self.query_params[param_name]
 
             cursor.execute(sql, params_real)
 

@@ -18,7 +18,7 @@ class database_manager(object):
 
     # List all params in SQL file
     def _GetParamList(self, sql: str):
-        param_names = '%\\(([^\\)]+)\\)s'
+        param_names = r'%\(([^\)]+)\)s'
         param_list = re.findall(param_names, sql)
         return param_list
 
